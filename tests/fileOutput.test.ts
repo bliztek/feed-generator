@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { generateRSSTemplate } from "../src/templates/rssTemplate";
+import { generateRSSFeed } from "../src/feeds/rssFeed";
 import { FeedData } from "../src/types";
 
 describe("File Output: Writing and Reading RSS Files", () => {
@@ -19,7 +19,7 @@ describe("File Output: Writing and Reading RSS Files", () => {
       items: [],
     };
 
-    const rss = generateRSSTemplate(feedData);
+    const rss = generateRSSFeed(feedData);
     fs.writeFileSync(outputPath, rss, "utf-8");
 
     // Verify file existence

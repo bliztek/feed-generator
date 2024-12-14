@@ -1,6 +1,6 @@
-import { generateAtomTemplate } from "../src/templates/atomTemplate";
-import { generateRSSTemplate } from "../src/templates/rssTemplate";
-import { generateJSONTemplate } from "../src/templates/jsonTemplate";
+import { generateAtomFeed } from "../src/feeds/atomFeed";
+import { generateRSSFeed } from "../src/feeds/rssFeed";
+import { generateJSONFeed } from "../src/feeds/jsonFeed";
 import { FeedData } from "../src/types";
 
 describe("Error Conditions: Handling Invalid Inputs", () => {
@@ -15,7 +15,7 @@ describe("Error Conditions: Handling Invalid Inputs", () => {
     };
 
     // Expect an error to be thrown for invalid data
-    expect(() => generateRSSTemplate(invalidFeedData)).toThrow(
+    expect(() => generateRSSFeed(invalidFeedData)).toThrow(
       "Invalid feed data: title, description, id, link, and author.name are required."
     );
   });
@@ -38,7 +38,7 @@ describe("Error Conditions: Handling Invalid Inputs", () => {
       ],
     };
 
-    const rss = generateRSSTemplate(feedData as unknown as FeedData);
+    const rss = generateRSSFeed(feedData as unknown as FeedData);
 
     // Verify that pubDate defaults to the current date
     expect(rss).toContain("<pubDate>");
@@ -58,7 +58,7 @@ describe("Error Conditions: Atom Template", () => {
 
     // Expect an error to be thrown for invalid data
     expect(() =>
-      generateAtomTemplate(invalidFeedData as unknown as FeedData)
+      generateAtomFeed(invalidFeedData as unknown as FeedData)
     ).toThrow(
       "Invalid feed data: title, description, id, link, and author.name are required."
     );
@@ -84,7 +84,7 @@ describe("Error Conditions: Atom Template", () => {
       ],
     };
 
-    const atom = generateAtomTemplate(feedData as unknown as FeedData);
+    const atom = generateAtomFeed(feedData as unknown as FeedData);
 
     // Verify that updated defaults to the current date
     expect(atom).toContain("<updated>");
@@ -108,7 +108,7 @@ describe("Error Conditions: Atom Template", () => {
       ],
     };
 
-    const atom = generateAtomTemplate(feedData as unknown as FeedData);
+    const atom = generateAtomFeed(feedData as unknown as FeedData);
 
     // Verify required fields are included
     expect(atom).toContain("<title>Minimal Atom Feed</title>");
@@ -146,7 +146,7 @@ describe("Error Conditions: Atom Template", () => {
       ],
     };
 
-    const atom = generateAtomTemplate(feedData as unknown as FeedData);
+    const atom = generateAtomFeed(feedData as unknown as FeedData);
 
     // Verify multiple entries and nested authors are included
     expect(atom).toContain("<entry>");
@@ -167,7 +167,7 @@ describe("JSON Template Generator", () => {
       items: [],
     };
 
-    expect(() => generateJSONTemplate(invalidFeedData)).toThrow(
+    expect(() => generateJSONFeed(invalidFeedData)).toThrow(
       "Invalid feed data: title, description, link, and author.name are required"
     );
   });
@@ -190,7 +190,7 @@ describe("JSON Template Generator", () => {
       ],
     };
 
-    expect(() => generateJSONTemplate(feedData)).toThrow(
+    expect(() => generateJSONFeed(feedData)).toThrow(
       "Invalid feed data: title, description, link, and author.name are required"
     );
   });

@@ -1,6 +1,6 @@
 import { FeedData } from "../types";
 
-export const generateAtomTemplate = (feedData: FeedData): string => {
+export const generateAtomFeed = (feedData: FeedData): string => {
   const {
     title,
     link,

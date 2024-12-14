@@ -1,6 +1,6 @@
 import { FeedData } from "../types";
 
-export const generateRSSTemplate = (feedData: FeedData): string => {
+export const generateRSSFeed = (feedData: FeedData): string => {
   const {
     title = "Default Feed Title",
     description = "Default feed description",

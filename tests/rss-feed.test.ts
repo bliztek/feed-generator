@@ -1,4 +1,4 @@
-import { generateRSSTemplate } from "../src/templates/rssTemplate";
+import { generateRSSFeed } from "../src/feeds/rssFeed";
 import fs from "fs";
 import path from "path";
 import { testData } from "./test-data";
@@ -8,7 +8,7 @@ describe("generateRSSTemplate", () => {
 
   it("should generate a valid RSS feed and write it to a file", () => {
     // Generate the RSS feed
-    const rss = generateRSSTemplate(testData);
+    const rss = generateRSSFeed(testData);
 
     // Write the RSS to a file
     fs.writeFileSync(outputPath, rss, "utf-8");

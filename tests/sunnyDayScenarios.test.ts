@@ -1,4 +1,4 @@
-import { generateRSSTemplate } from "../src/templates/rssTemplate";
+import { generateRSSFeed } from "../src/feeds/rssFeed";
 import { FeedData } from "../src/types";
 
 describe("Sunny Day Scenarios: RSS Feed Generation", () => {
@@ -12,7 +12,7 @@ describe("Sunny Day Scenarios: RSS Feed Generation", () => {
       items: [],
     };
 
-    const rss = generateRSSTemplate(feedData);
+    const rss = generateRSSFeed(feedData);
 
     // Check that the feed contains the required fields
     expect(rss).toContain("<title>Tech News Feed</title>");
@@ -43,7 +43,7 @@ describe("Sunny Day Scenarios: RSS Feed Generation", () => {
       ],
     };
 
-    const rss = generateRSSTemplate(feedData);
+    const rss = generateRSSFeed(feedData);
 
     // Verify that the <item> structure is included correctly
     expect(rss).toContain("<item>");

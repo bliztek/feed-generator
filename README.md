@@ -44,12 +44,7 @@ yarn add @bliztek/feed-generator
 ### 1. Import the Feed Generators
 
 ```typescript
-import {
-  generateRSS,
-  generateAtom,
-  generateJSON,
-  FeedData,
-} from "@bliztek/feed-generator";
+import { generateFeed, FeedData } from "@bliztek/feed-generator";
 ```
 
 ### 2. Define Your Feed Data

@@ -1,13 +1,13 @@
 import fs from "fs";
 import path from "path";
-import { generateJSONTemplate } from "../src/templates/jsonTemplate";
+import { generateJSONFeed } from "../src/feeds/jsonFeed";
 import { testData } from "./test-data";
 
 describe("JSON Template", () => {
   const outputPath = path.resolve(__dirname, "../test-output/feed.json");
 
   it("should generate a valid JSON feed and write it to a file", () => {
-    const jsonFeed = generateJSONTemplate(testData);
+    const jsonFeed = generateJSONFeed(testData);
 
     // Write to file
     fs.writeFileSync(outputPath, jsonFeed, "utf-8");

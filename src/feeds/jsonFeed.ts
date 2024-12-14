@@ -1,6 +1,6 @@
 import { FeedData } from "../types";
 
-export const generateJSONTemplate = (feedData: FeedData): string => {
+export const generateJSONFeed = (feedData: FeedData): string => {
   const { title, link, description, updated, author, items } = feedData;
   // Validate required fields
   if (!title || !description || !link || !author?.name) {

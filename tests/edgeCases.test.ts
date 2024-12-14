@@ -1,4 +1,4 @@
-import { generateRSSTemplate } from "../src/templates/rssTemplate";
+import { generateRSSFeed } from "../src/feeds/rssFeed";
 import { FeedData } from "../src/types";
 
 describe("Edge Cases: Handling Optional and Rare Fields", () => {
@@ -22,7 +22,7 @@ describe("Edge Cases: Handling Optional and Rare Fields", () => {
       ],
     };
 
-    const rss = generateRSSTemplate(feedData);
+    const rss = generateRSSFeed(feedData);
 
     // Verify the <comments> field is included
     expect(rss).toContain(
@@ -50,7 +50,7 @@ describe("Edge Cases: Handling Optional and Rare Fields", () => {
       ],
     };
 
-    const rss = generateRSSTemplate(feedData);
+    const rss = generateRSSFeed(feedData);
 
     // Verify that all categories are included
     expect(rss).toContain("<category>Tech</category>");
