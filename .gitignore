@@ -2,3 +2,4 @@
 /test-output/*.json
 /node_modules*
 /coverage*
+/dist*
