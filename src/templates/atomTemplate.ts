@@ -12,6 +12,12 @@ export const generateAtomTemplate = (feedData: FeedData): string => {
     items,
   } = feedData;
 
+  // Validate required fields
+  if (!title || !description || !id || !link || !author?.name) {
+    throw new Error(
+      "Invalid feed data: title, description, id, link, and author.name are required."
+    );
+  }
   return `
     <?xml version="1.0" encoding="UTF-8" ?>
     <feed xmlns="http://www.w3.org/2005/Atom">
@@ -35,7 +41,9 @@ export const generateAtomTemplate = (feedData: FeedData): string => {
           <title>${item.title}</title>
           <link href="${item.link}" />
           <id>${item.id}</id>
-          <updated>${new Date(item.date).toISOString()}</updated>
+            <updated>${new Date(
+              item.updated || new Date()
+            ).toISOString()}</updated>
           <summary>${item.description}</summary>
           <content type="html"><![CDATA[${item.content || ""}]]></content>
              ${

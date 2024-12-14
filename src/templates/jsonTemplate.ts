@@ -2,7 +2,12 @@ import { FeedData } from "../types";
 
 export const generateJSONTemplate = (feedData: FeedData): string => {
   const { title, link, description, updated, author, items } = feedData;
-
+  // Validate required fields
+  if (!title || !description || !link || !author?.name) {
+    throw new Error(
+      "Invalid feed data: title, description, link, and author.name are required."
+    );
+  }
   return JSON.stringify(
     {
       version: "https://jsonfeed.org/version/1",
