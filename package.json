@@ -4,6 +4,15 @@
   "description": "A simple and lightweight Node.js library for generating RSS 2.0, Atom, and JSON Feed formats.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "author": "Steven Brown",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bliztek/feed-generator.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "test": "jest --passWithNoTests",
@@ -19,8 +28,11 @@
     "blog",
     "syndication"
   ],
-  "author": "Steven Brown",
-  "license": "MIT",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "jest": "^29.7.0",
