@@ -1,0 +1,4 @@
+/test-output/*.xml
+/test-output/*.json
+/node_modules*
+/coverage*

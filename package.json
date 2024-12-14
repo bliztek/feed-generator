@@ -1,0 +1,26 @@
+{
+  "name": "@bliztek/feed-generator",
+  "version": "1.0.0",
+  "description": "A simple and lightweight Node.js library for generating RSS 2.0, Atom, and JSON Feed formats.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "rss",
+    "atom",
+    "json-feed",
+    "generator"
+  ],
+  "author": "Steven Brown",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5"
+  }
+}
