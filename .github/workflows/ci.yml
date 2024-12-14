@@ -38,6 +38,6 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/*.json
+          files: ./coverage/coverage-final.json
           flags: unittests
           name: code-coverage-report
