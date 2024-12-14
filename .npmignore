@@ -1,4 +1,37 @@
-*.ts
-node_modules/
+# Ignore CI/CD configuration files
+.github/
+
+# Exclude Zone.Identifier files
+*Zone.Identifier
+
+# Ignore test-related files
 tests/
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+
+# Jest config and coverage outputs
+jest.config.js
+jest.config.ts
+coverage/
+
+# Source TypeScript files (only include compiled output in /dist)
+*.ts
+!dist/**/*.d.ts  
+tsconfig.json
+tsconfig.*.json
+
+# Build and dependency artifacts
+node_modules/
 test-output/
+
+
+# Editor/IDE-specific files
+.vscode/
+.idea/
+
+# Miscellaneous
+.DS_Store
+*.log
+*.tgz
