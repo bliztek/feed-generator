@@ -1,7 +1,7 @@
 # Feed Generator: RSS, Atom, JSON
 
 ![Build Status](https://github.com/bliztek/feed-generator/actions/workflows/ci.yml/badge.svg)
-![Coverage](https://codecov.io/gh/bliztek/feed-generator/branch/main/graph/badge.svg)
+[![Codecov](https://codecov.io/gh/bliztek/feed-generator/graph/badge.svg?token=4GLOVKLC2W)](https://codecov.io/gh/bliztek/feed-generator)
 ![npm](https://img.shields.io/npm/v/@bliztek/feed-generator)
 ![License](https://img.shields.io/npm/l/@bliztek/feed-generator)
 ![Downloads](https://img.shields.io/npm/dm/@bliztek/feed-generator)
