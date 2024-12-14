@@ -8,6 +8,8 @@ A simple and lightweight Node.js library for generating **RSS 2.0**, **Atom**, a
 
 - Generate valid **RSS 2.0**, **Atom**, and **JSON Feed** outputs.
 - Easy-to-use API for creating feeds.
+- Developed using TypeScript / type-safe.
+- Tests & snapshot for each syndication format to avoid regressions.
 - Fully customizable feed metadata and entries.
 - Outputs that pass online validation (e.g., W3C Feed Validator, JSON Feed Validator).
 - No external dependencies.
