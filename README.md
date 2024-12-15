@@ -1,10 +1,10 @@
 # Feed Generator: RSS, Atom, JSON
 
-![Build Status](https://github.com/bliztek/feed-generator/actions/workflows/ci.yml/badge.svg)
-[![Codecov](https://codecov.io/gh/bliztek/feed-generator/graph/badge.svg?token=4GLOVKLC2W)](https://codecov.io/gh/bliztek/feed-generator)
-![npm](https://img.shields.io/npm/v/@bliztek/feed-generator)
-![License](https://img.shields.io/npm/l/@bliztek/feed-generator)
-![Downloads](https://img.shields.io/npm/dm/@bliztek/feed-generator)
+![Build Status](https://github.com/bliztek/feed-generator/actions/workflows/ci.yml/badge.svg)  
+[![Codecov](https://codecov.io/gh/bliztek/feed-generator/graph/badge.svg?token=4GLOVKLC2W)](https://codecov.io/gh/bliztek/feed-generator)  
+![npm](https://img.shields.io/npm/v/@bliztek/feed-generator)  
+![License](https://img.shields.io/npm/l/@bliztek/feed-generator)  
+![Downloads](https://img.shields.io/npm/dm/@bliztek/feed-generator)  
 ![Bundle Size](https://img.shields.io/bundlephobia/min/@bliztek/feed-generator)
 
 A simple and lightweight Node.js library for generating **RSS 2.0**, **Atom**, and **JSON Feed** formats. Perfect for syndicating content in blogs, news sites, or any platform that needs standardized feed formats.
@@ -16,7 +16,7 @@ A simple and lightweight Node.js library for generating **RSS 2.0**, **Atom**, a
 - Generate valid **RSS 2.0**, **Atom**, and **JSON Feed** outputs.
 - Easy-to-use API for creating feeds.
 - Developed using TypeScript / type-safe.
-- Tests & snapshot for each syndication format to avoid regressions.
+- Tests & snapshots for each syndication format to avoid regressions.
 - Fully customizable feed metadata and entries.
 - Outputs that pass online validation (e.g., W3C Feed Validator, JSON Feed Validator).
 - No external dependencies.
@@ -44,33 +44,28 @@ yarn add @bliztek/feed-generator
 ### 1. Import the Feed Generators
 
 ```typescript
-import { generateFeed, FeedData } from "@bliztek/feed-generator";
+import {
+  generateRSSFeed,
+  generateAtomFeed,
+  generateJSONFeed,
+} from "@bliztek/feed-generator";
 ```
 
 ### 2. Define Your Feed Data
 
-The `FeedData` type provides a standard structure for your feed:
+Each feed type (RSS, Atom, and JSON) uses a specific data structure. Below is an example for RSS feed data:
 
 ```typescript
-const feedData: FeedData = {
+const rssFeedData = {
   title: "My Blog Feed",
-  description: "The latest articles from my blog.",
-  id: "https://example.com/feed",
   link: "https://example.com",
-  updated: "2024-12-14T12:00:00Z",
-  author: {
-    name: "John Doe",
-    email: "john@example.com",
-    link: "https://example.com/about",
-  },
+  description: "The latest articles from my blog.",
   items: [
     {
       title: "First Post",
-      id: "https://example.com/post-1",
       link: "https://example.com/post-1",
       description: "A summary of the first post.",
-      content: "<p>The full content of the first post.</p>",
-      date: "2024-12-14T10:00:00Z",
+      pubDate: "2024-12-14T10:00:00Z",
     },
   ],
 };
@@ -81,21 +76,61 @@ const feedData: FeedData = {
 #### Generate RSS Feed
 
 ```typescript
-const rss = generateRSS(feedData);
+const rss = generateRSSFeed(rssFeedData);
 console.log(rss);
 ```
 
 #### Generate Atom Feed
 
+Atom feeds have a slightly different structure:
+
 ```typescript
-const atom = generateAtom(feedData);
+const atomFeedData = {
+  title: { type: "text", value: "My Blog Feed" },
+  updated: "2024-12-14T12:00:00Z",
+  id: "https://example.com/atom",
+  link: [
+    {
+      href: "https://example.com/atom",
+      rel: "self",
+      type: "application/atom+xml",
+    },
+  ],
+  entries: [
+    {
+      title: { type: "text", value: "First Post" },
+      id: "https://example.com/post-1",
+      updated: "2024-12-14T10:00:00Z",
+      summary: { type: "text", value: "A summary of the first post." },
+    },
+  ],
+};
+
+const atom = generateAtomFeed(atomFeedData);
 console.log(atom);
 ```
 
 #### Generate JSON Feed
 
+JSON feeds are defined with the `JSONFeed` type:
+
 ```typescript
-const json = generateJSON(feedData);
+const jsonFeedData = {
+  version: "https://jsonfeed.org/version/1.1",
+  title: "My Blog Feed",
+  home_page_url: "https://example.com",
+  feed_url: "https://example.com/feed.json",
+  items: [
+    {
+      id: "https://example.com/post-1",
+      title: "First Post",
+      content_html: "<p>The full content of the first post.</p>",
+      date_published: "2024-12-14T10:00:00Z",
+    },
+  ],
+};
+
+const json = generateJSONFeed(jsonFeedData);
 console.log(json);
 ```
 
@@ -114,61 +149,30 @@ You can copy and paste the generated feed output into these tools for validation
 
 ## API Reference
 
-### `generateRSS(feedData: FeedData): string`
+### `generateRSSFeed(feedData: RSSFeed): string`
 
 Generates an RSS 2.0 feed.
 
-- **Input:** `FeedData` object.
+- **Input:** `RSSFeed` object.
 - **Output:** A string containing the RSS XML.
 
 ---
 
-### `generateAtom(feedData: FeedData): string`
+### `generateAtomFeed(feedData: AtomFeed): string`
 
 Generates an Atom feed.
 
-- **Input:** `FeedData` object.
+- **Input:** `AtomFeed` object.
 - **Output:** A string containing the Atom XML.
 
 ---
 
-### `generateJSON(feedData: FeedData): string`
+### `generateJSONFeed(feedData: JSONFeed): string`
 
 Generates a JSON Feed.
 
-- **Input:** `FeedData` object.
+- **Input:** `JSONFeed` object.
 - **Output:** A string containing the JSON Feed.
-
----
-
-### FeedData Type
-
-#### Example
-
-```typescript
-const feedData: FeedData = {
-  title: "Feed Title", // Required
-  description: "Feed Description", // Required
-  id: "https://example.com/feed", // Required
-  link: "https://example.com", // Required
-  updated: "2024-12-14T12:00:00Z", // Optional, defaults to current date
-  author: {
-    name: "Author Name", // Required
-    email: "author@example.com", // Optional
-    link: "https://example.com/author", // Optional
-  },
-  items: [
-    {
-      title: "Post Title", // Required
-      id: "https://example.com/post-1", // Required
-      link: "https://example.com/post-1", // Required
-      description: "Post summary.", // Required
-      content: "<p>Full content of the post.</p>", // Optional
-      date: "2024-12-14T10:00:00Z", // Required
-    },
-  ],
-};
-```
 
 ---
 
@@ -199,23 +203,15 @@ const feedData: FeedData = {
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>My Blog Feed</title>
-  <subtitle>The latest articles from my blog.</subtitle>
-  <link href="https://example.com" />
-  <id>https://example.com/feed</id>
+  <title type="text">My Blog Feed</title>
+  <link href="https://example.com/atom" rel="self" type="application/atom+xml" />
+  <id>https://example.com/atom</id>
   <updated>2024-12-14T12:00:00Z</updated>
-  <author>
-    <name>John Doe</name>
-    <email>john@example.com</email>
-    <uri>https://example.com/about</uri>
-  </author>
   <entry>
-    <title>First Post</title>
-    <link href="https://example.com/post-1" />
+    <title type="text">First Post</title>
     <id>https://example.com/post-1</id>
     <updated>2024-12-14T10:00:00Z</updated>
-    <summary>A summary of the first post.</summary>
-    <content type="html"><![CDATA[<p>The full content of the first post.</p>]]></content>
+    <summary type="text">A summary of the first post.</summary>
   </entry>
 </feed>
 ```
@@ -224,16 +220,14 @@ const feedData: FeedData = {
 
 ```json
 {
-  "version": "https://jsonfeed.org/version/1",
+  "version": "https://jsonfeed.org/version/1.1",
   "title": "My Blog Feed",
   "home_page_url": "https://example.com",
   "feed_url": "https://example.com/feed.json",
   "items": [
     {
       "id": "https://example.com/post-1",
-      "url": "https://example.com/post-1",
       "title": "First Post",
-      "summary": "A summary of the first post.",
       "content_html": "<p>The full content of the first post.</p>",
       "date_published": "2024-12-14T10:00:00Z"
     }
