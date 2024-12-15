@@ -1,10 +1,10 @@
 # Feed Generator: RSS, Atom, JSON
 
-![Build Status](https://github.com/bliztek/feed-generator/actions/workflows/ci.yml/badge.svg)  
-[![Codecov](https://codecov.io/gh/bliztek/feed-generator/graph/badge.svg?token=4GLOVKLC2W)](https://codecov.io/gh/bliztek/feed-generator)  
-![npm](https://img.shields.io/npm/v/@bliztek/feed-generator)  
-![License](https://img.shields.io/npm/l/@bliztek/feed-generator)  
-![Downloads](https://img.shields.io/npm/dm/@bliztek/feed-generator)  
+![Build Status](https://github.com/bliztek/feed-generator/actions/workflows/ci.yml/badge.svg)
+[![Codecov](https://codecov.io/gh/bliztek/feed-generator/graph/badge.svg?token=4GLOVKLC2W)](https://codecov.io/gh/bliztek/feed-generator)
+![npm](https://img.shields.io/npm/v/@bliztek/feed-generator)
+![License](https://img.shields.io/npm/l/@bliztek/feed-generator)
+![Downloads](https://img.shields.io/npm/dm/@bliztek/feed-generator)
 ![Bundle Size](https://img.shields.io/bundlephobia/min/@bliztek/feed-generator)
 
 A simple and lightweight Node.js library for generating **RSS 2.0**, **Atom**, and **JSON Feed** formats. Perfect for syndicating content in blogs, news sites, or any platform that needs standardized feed formats.
