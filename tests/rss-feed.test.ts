@@ -24,7 +24,7 @@ describe("generateRSSFeed", () => {
     );
     expect(rss).toContain("<language>en-us</language>");
     expect(rss).toContain(
-      '<atom:link href="https://example.com/rss.xml" rel="self" type="application/rss+xml" />'
+      '<atom:link href="https://example.com/atom.xml" rel="self" type="application/atom+xml" />'
     );
 
     // Validate `<image>` element

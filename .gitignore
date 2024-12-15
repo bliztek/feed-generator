@@ -1,5 +1,6 @@
 /test-output/*.xml
 /test-output/*.json
+/test-output/*.md
 /node_modules*
 /coverage*
 /dist*

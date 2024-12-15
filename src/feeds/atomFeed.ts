@@ -31,67 +31,97 @@ export const generateAtomFeed = (feedData: AtomFeed): string => {
       ? `<${tag} type="${construct.type || "text"}">${construct.value}</${tag}>`
       : "";
 
-  const renderGenerator = (gen: AtomFeed["generator"] | undefined) =>
-    gen
-      ? `<generator${gen.uri ? ` uri="${gen.uri}"` : ""}${
-          gen.version ? ` version="${gen.version}"` : ""
-        }>${gen.value}</generator>`
-      : "";
+  const renderGenerator = (gen: AtomFeed["generator"] | undefined): string => {
+    if (!gen) return "";
 
-  const renderLinks = (links: AtomLink[] | undefined) =>
+    const attributes = [
+      gen.uri ? `uri="${gen.uri.trim()}"` : "",
+      gen.version ? `version="${gen.version.trim()}"` : "",
+    ]
+      .filter((attr) => attr)
+      .join(" ");
+
+    return `<generator${
+      attributes ? ` ${attributes}` : ""
+    }>${gen.value.trim()}</generator>`;
+  };
+
+  const renderLinks = (links: AtomLink[] | undefined): string =>
     links
-      ?.map(
-        (l) =>
-          `<link href="${l.href}" rel="${l.rel}" type="${l.type}"${
-            l.hreflang ? ` hreflang="${l.hreflang}"` : ""
-          } />`
-      )
-      .join("") || "";
+      ?.map((l) => {
+        const attributes = [
+          `href="${l.href.trim()}"`,
+          l.rel ? `rel="${l.rel.trim()}"` : "",
+          l.type ? `type="${l.type.trim()}"` : "",
+          l.hreflang ? `hreflang="${l.hreflang.trim()}"` : "",
+        ]
+          .filter((attr) => attr)
+          .join(" ");
 
-  const renderAuthors = (authors: PersonConstruct[] | undefined) =>
-    authors
-      ?.map(
-        (a) =>
-          `<author>
-            <name>${a.name}</name>
-            ${a.email ? `<email>${a.email}</email>` : ""}
-            ${a.link ? `<uri>${a.link}</uri>` : ""}
-          </author>`
-      )
-      .join("") || "";
+        return `\t<link ${attributes} />`;
+      })
+      .join("\n") || "";
 
-  const renderEntries = (entries: AtomEntry[] | undefined) =>
+  const renderAuthors = (
+    authors: PersonConstruct[] | undefined,
+    tabs: number = 1
+  ): string => {
+    const t = "\t".repeat(tabs);
+    return (
+      authors
+        ?.map((a) => {
+          const authorParts: string[] = [
+            `${t}<author>`,
+            `\t<name>${a.name.trim()}</name>`,
+            a.email ? `\t<email>${a.email.trim()}</email>` : "",
+            a.link ? `\t<uri>${a.link.trim()}</uri>` : "",
+            `</author>`,
+          ];
+
+          // Filter empty parts and join
+          return authorParts.filter((part) => part.trim()).join(`\n${t}`);
+        })
+        .join("\n") || ""
+    );
+  };
+
+  const renderEntries = (entries: AtomEntry[] | undefined): string =>
     entries
-      ?.map(
-        (entry) => `
-      <entry>
-        ${renderTextConstruct(entry.title, "title")}
-        ${renderLinks(entry.link)}
-        <id>${entry.id}</id>
-        <updated>${entry.updated}</updated>
-        ${entry.published ? `<published>${entry.published}</published>` : ""}
-        ${
+      ?.map((entry) => {
+        const entryParts: string[] = [
+          `\t<entry>`,
+          `\t\t${renderTextConstruct(entry.title, "title")}`,
+          `\t${renderLinks(entry.link)}`,
+          `\t\t<id>${entry.id.trim()}</id>`,
+          `\t\t<updated>${entry.updated.trim()}</updated>`,
+          entry.published
+            ? `\t\t<published>${entry.published.trim()}</published>`
+            : "",
           entry.category
             ?.map(
               (cat) =>
-                `<category term="${cat.term}"${
-                  cat.scheme ? ` scheme="${cat.scheme}"` : ""
-                }${cat.label ? ` label="${cat.label}"` : ""} />`
+                `\t\t<category term="${cat.term.trim()}"${
+                  cat.scheme ? ` scheme="${cat.scheme.trim()}"` : ""
+                }${cat.label ? ` label="${cat.label.trim()}"` : ""} />`
             )
-            .join("") || ""
-        }
-        ${
+            .join("") || "",
           entry.content
             ? isExternalContent(entry.content)
-              ? `<content src="${entry.content.src}" type="${entry.content.type}" />`
-              : renderTextConstruct(entry.content as TextConstruct, "content")
-            : ""
-        }
-        ${renderTextConstruct(entry.summary, "summary")}
-        ${renderAuthors(entry.author)}
-      </entry>`
-      )
-      .join("") || "";
+              ? `\t\t<content src="${entry.content.src.trim()}" type="${entry.content.type.trim()}" />`
+              : `\t\t${renderTextConstruct(
+                  entry.content as TextConstruct,
+                  "content"
+                )}`
+            : "",
+          `\t\t${renderTextConstruct(entry.summary, "summary")}`,
+          `${renderAuthors(entry.author, 2)}`,
+          `\t</entry>`,
+        ];
+
+        // Filter empty parts and join
+        return entryParts.filter((part) => part.trim()).join("\n");
+      })
+      .join("\n") || "";
 
   const isExternalContent = (
     content: TextConstruct | { src: string; type: string }
@@ -99,18 +129,24 @@ export const generateAtomFeed = (feedData: AtomFeed): string => {
     return (content as { src: string; type: string }).src !== undefined;
   };
 
-  return `
-    <?xml version="1.0" encoding="UTF-8" ?>
-    <feed xmlns="http://www.w3.org/2005/Atom">
-      ${renderTextConstruct(title, "title")}
-      ${renderTextConstruct(subtitle, "subtitle")}
-      ${renderTextConstruct(rights, "rights")}
-      ${renderLinks(link)}
-      <id>${id}</id>
-      <updated>${updated}</updated>
-      ${renderGenerator(generator)}
-      ${renderAuthors(author)}
-      ${renderEntries(entries)}
-    </feed>
-  `.trim();
+  const feedParts: string[] = [
+    `<?xml version="1.0" encoding="UTF-8" ?>`,
+    `<feed xmlns="http://www.w3.org/2005/Atom">`,
+    `\t${renderTextConstruct(title, "title")}`,
+    `\t${renderTextConstruct(subtitle, "subtitle")}`,
+    `\t${renderTextConstruct(rights, "rights")}`,
+    `${renderLinks(link)}`,
+    `\t<id>${id.trim()}</id>`,
+    `\t<updated>${updated.trim()}</updated>`,
+    `\t${renderGenerator(generator)}`,
+    `${renderAuthors(author)}`,
+    `${renderEntries(entries)}`,
+    `</feed>`,
+  ];
+
+  // Filter empty parts and join
+  return feedParts
+    .filter((part) => part.trim())
+    .join("\n")
+    .trim();
 };
